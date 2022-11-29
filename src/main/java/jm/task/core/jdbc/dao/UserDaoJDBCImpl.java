@@ -16,9 +16,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        String com = "CREATE TABLE IF NOT EXISTS test_kata. duble (id INT PRIMARY KEY AUTO_INCREMENT , Name VARCHAR(60), lastName VARCHAR(60),age int)";
+
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(com);
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS test_kata. duble (id INT PRIMARY KEY AUTO_INCREMENT , Name VARCHAR(60), lastName VARCHAR(60),age int)");
             System.out.println("Таблица создана");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -28,9 +28,8 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void dropUsersTable() {
 
-        String com = "DROP TABLE IF EXISTS test_kata. duble";
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(com);
+            statement.executeUpdate("DROP TABLE IF EXISTS test_kata. duble");
             System.out.println("Таблица удалена");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,12 +39,12 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
 
-        String com = ("INSERT INTO test_kata.duble (name, lastName, age) VALUES (?,?,?)");
-        try (PreparedStatement preparedStatement = connection.prepareStatement(com)) {
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO test_kata.duble (name, lastName, age) VALUES (?,?,?)")) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
-            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate("INSERT INTO test_kata.duble (name, lastName, age) VALUES (?,?,?)");
             System.out.println("User с именем " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,10 +53,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        String com = "DELETE FROM kata_test.duble WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(com)) {
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM kata_test.duble WHERE id = ?")) {
             preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate("DELETE FROM kata_test.duble WHERE id = ?");
             System.out.println("User с ID под номером " + id + " Удален");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,9 +66,8 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        String com = "SELECT * FROM kata_test.duble";
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(com);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM kata_test.duble");
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -87,9 +85,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        String com = "TRUNCATE kata_test.duble";
+
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(com);
+            statement.executeUpdate("TRUNCATE kata_test.duble");
             System.out.println("Очистка полей таблицы прошла успешно");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,3 +97,5 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 }
+
+
