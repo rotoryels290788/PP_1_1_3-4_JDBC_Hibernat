@@ -44,7 +44,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
-            preparedStatement.executeUpdate("INSERT INTO test_kata.duble (name, lastName, age) VALUES (?,?,?)");
+            preparedStatement.executeUpdate();
             System.out.println("User с именем " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,9 +54,9 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void removeUserById(long id) {
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM kata_test.duble WHERE id = ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM test_kata.duble WHERE id = ?")) {
             preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate("DELETE FROM kata_test.duble WHERE id = ?");
+            preparedStatement.executeUpdate();
             System.out.println("User с ID под номером " + id + " Удален");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM kata_test.duble");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM test_kata.duble");
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -76,6 +76,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(resultSet.getByte("age"));
                 list.add(user);
                 System.out.println("Список всех " + user);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,7 +88,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
 
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("TRUNCATE kata_test.duble");
+            statement.executeUpdate("TRUNCATE test_kata.duble");
             System.out.println("Очистка полей таблицы прошла успешно");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,5 +98,6 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 }
+
 
 
